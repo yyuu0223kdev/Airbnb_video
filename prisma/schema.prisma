@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../app/generated/prisma"
+  // output   = "../app/generated/prisma"
 }
 
 datasource db {
@@ -24,9 +24,9 @@ model User {
   hashedPassword String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  favorites  String[] @db.ObjectId
+  favoritIds  String[] @db.ObjectId
 
-  account  Account[]
+  accounts  Account[]
   listings Listing[]
   reservations Reservation[]
 }
@@ -42,7 +42,7 @@ model Account {
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?
+  id_token          String? @db.String
   session_state     String?
 
   user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -54,13 +54,13 @@ model Listing {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  imageSrc       String?
+  imageSrc       String
   createdAt   DateTime @default(now())
   category    String
   roomCount   Int
   bathroomCount Int
   guestCount  Int
-  location    String
+  locationValue    String
   userId      String   @db.ObjectId
   price       Int
 
